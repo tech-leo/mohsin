@@ -1,0 +1,139 @@
+﻿
+@{
+    Layout = null;
+
+    ViewData["Title"] = "Home";
+    var accounts = ViewBag.Accounts as List<Account>;
+}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @* <title>Modernize Free Bootstrap Admin Template by Adminmart</title> *@
+    @* <link rel="shortcut icon" type="image/png" href="../assets/images/logos/favicon.png" /> *@
+    <link rel="stylesheet" href="../assets/css/styles.min.css" />
+</head>
+
+<body>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+         data-sidebar-position="fixed" data-header-position="fixed">
+        <!--  App Topstrip -->
+        <div class="app-topstrip  py-6 px-3 w-100 d-lg-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center justify-content-center gap-5 mb-2 mb-lg-0">
+                <h6 class="alert alert-success">Mohsin QuickBooks Application</h6>
+            </div>
+            <div class="d-none d-xl-flex align-items-center gap-3">
+            </div>
+        </div>
+
+        <!-- Sidebar Start -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div>
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+                    <ul id="sidebarnav">
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">Home</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="@Url.Action("Index","Home")" aria-expanded="false">
+                                <i class="ti ti-atom"></i>
+                                <span class="hide-menu">Dashboard</span>
+                            </a>
+                        </li>
+                        <!-- ---------------------------------- -->
+                        <!-- Dashboard -->
+                        <!-- ---------------------------------- -->
+
+                        
+                    </ul>
+                    
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+        <!--  Sidebar End -->
+        <!--  Main wrapper -->
+        <div class="body-wrapper">
+            <!--  Header Start -->
+            
+            <!--  Header End -->
+            <div class="body-wrapper-inner">
+                <div class="container-fluid" style="padding-top:100px;">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="form-group">
+                                <a href="@Url.Action("Index","QuickBooks")" class="btn btn-primary">Add Account </a>
+                            </div>
+                            @if (ViewBag.Accounts != null)
+                            {
+                                <div class="col-md-12">
+                                    <table style="width:100%" class="table table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>Company Name</th>
+                                                <th>Sync Status</th>
+                                                <th>Last Synced</th>
+                                                <th>Connected</th>
+                                                <th colspan="3">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in accounts)
+                                            {
+                                                <tr>
+                                                    <td>@item.Id</td>
+                                                    <td>@item.CompanyName</td>
+                                                    <td>@item.SyncStatus</td>
+                                                    <td>@item.LastSyncDate</td>
+                                                    <td>@item.ConnectionStatus</td>
+                                                    <td>
+                                                        @if (item.ConnectionStatus == true)
+                                                        {
+                                                            <a class="btn btn-primary" href="@Url.Action("Details","Home",new {Id=item.Id})">Detail</a>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @if (item.ConnectionStatus == true)
+                                                        {
+                                                            <a class="btn btn-success" href="@Url.Action("SyncNow","QuickBooks",new {Id=item.Id})">Sync Now</a>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @if (item.ConnectionStatus == true)
+                                                        {
+                                                            <a href="@Url.Action("Disconnect","QuickBooks",new {Id=item.Id})" class="btn btn-danger">Disconnect</a>
+                                                        }
+                                                    </td>
+                                                </tr>
+
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/sidebarmenu.js"></script>
+    <script src="../assets/js/app.min.js"></script>
+    <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+    <!-- solar icons -->
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+</body>
+
+</html>

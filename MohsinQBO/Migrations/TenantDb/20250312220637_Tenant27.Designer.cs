@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MohsinQBO.Migrations.TenantDb
 {
     [DbContext(typeof(TenantDbContext))]
-    partial class TenantDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250312220637_Tenant27")]
+    partial class Tenant27
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,25 +32,10 @@ namespace MohsinQBO.Migrations.TenantDb
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Col1")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("LastUpdate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Col2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Col3")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Col4")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Current")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Total")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Vendor")
+                    b.Property<string>("RawJSON")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -63,25 +51,10 @@ namespace MohsinQBO.Migrations.TenantDb
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("cust_name")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("LastUpdate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("doc_num")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("due_date")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("subt_amount")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("subt_open_bal")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("tx_date")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("txn_type")
+                    b.Property<string>("RawJSON")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -333,6 +306,9 @@ namespace MohsinQBO.Migrations.TenantDb
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("RawJSON")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("account_name")
                         .HasColumnType("nvarchar(max)");

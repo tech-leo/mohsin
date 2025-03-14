@@ -478,8 +478,14 @@ using System.Threading.Tasks;
                             {
                                 tenantDbContext.GeneralLedgerDetail.RemoveRange(tenantDbContext.GeneralLedgerDetail.ToList());
                             }
+                            var yearstr = Configuration["GeneralLedger_StartYear"]?.ToString()??string.Empty;
+                            var process = 2023;
+                            if(int.TryParse(yearstr, out int yearint))
+                            {
+                                process=yearint;
+                            }
 
-                            for (int year = 2010; year <= DateTime.UtcNow.Year; year++)
+                            for (int year = process; year <= DateTime.UtcNow.Year; year++)
                             {
                                 var resultreport = await quickBooksDataService.GetQuickBooksReportAsync(QuickBooksSettings, accessToken, realmId, "GeneralLedger", new Dictionary<string, string>() {
                                 {"start_date", year+"-01-01"},
@@ -511,11 +517,11 @@ using System.Threading.Tasks;
                                         var rowsdata = RowsData(si, row);
 
                                         tenantDbContext.GeneralLedgerDetail.AddRange(rowsdata);
+                                    await tenantDbContext.SaveChangesAsync();
                                     }
 
                                 }
                             }
-                                    await tenantDbContext.SaveChangesAsync();
                             result = false;
 
                             break;
@@ -563,7 +569,7 @@ using System.Threading.Tasks;
 
                             break;
                         case "AgedReceivableDetail":
-                            var resultAgedReceivableDetail = await quickBooksDataService.GetQuickBooksReportAsync(QuickBooksSettings, accessToken, realmId,  "AgedReceivableDetail", new Dictionary<string, string>() { 
+                            var resultAgedReceivableDetail = await quickBooksDataService.GetQuickBooksReportAsync(QuickBooksSettings, accessToken, realmId, "AgedReceivables", new Dictionary<string, string>() { 
                                 {"date_macro", "All"},
                             });
                             if (resultAgedReceivableDetail != null)
@@ -759,23 +765,23 @@ using System.Threading.Tasks;
                 {
                     if (order["ColData"] is JArray colsArray)
                     {
-                        var indven = cols?.FirstOrDefault(p => p.Item1 == "Date").Item2 ?? -1;
-                        var indCurrent = cols?.FirstOrDefault(p => p.Item1 == "Transaction Type").Item2 ?? -1;
-                        var indcol1 = cols?.FirstOrDefault(p => p.Item1 == "Num").Item2 ?? -1;
-                        var indcol2 = cols?.FirstOrDefault(p => p.Item1 == "Customer").Item2 ?? -1;
-                        var indcol3 = cols?.FirstOrDefault(p => p.Item1 == "Due Date").Item2 ?? -1;
-                        var indcol4 = cols?.FirstOrDefault(p => p.Item1 == "Amount").Item2 ?? -1;
-                        var indtotal = cols?.FirstOrDefault(p => p.Item1 == "Open Balance").Item2 ?? -1;
+                        var indven = cols?.FirstOrDefault(p => p.Item1 == string.Empty).Item2 ?? -1;
+                        var indCurrent = cols?.FirstOrDefault(p => p.Item1 == "Current").Item2 ?? -1;
+                        var indcol1 = cols?.FirstOrDefault(p => p.Item1 == "1 - 30").Item2 ?? -1;
+                        var indcol2 = cols?.FirstOrDefault(p => p.Item1 == "31 - 60").Item2 ?? -1;
+                        var indcol3 = cols?.FirstOrDefault(p => p.Item1 == "61 - 90").Item2 ?? -1;
+                        var indcol4 = cols?.FirstOrDefault(p => p.Item1 == "91 and over").Item2 ?? -1;
+                        var indtotal = cols?.FirstOrDefault(p => p.Item1 == "Total").Item2 ?? -1;
 
                         dm.Add(new ARAgingDetail
                         {
-                            tx_date = indven > -1 ? colsArray[indven]["value"]?.ToString() : null,
-                            txn_type = indCurrent > -1 ? colsArray[indCurrent]["value"]?.ToString() : null,
-                            doc_num = indcol1 > -1 ? colsArray[indcol1]["value"]?.ToString() : null,
-                            cust_name = indcol2 > -1 ? colsArray[indcol2]["value"]?.ToString() : null,
-                            due_date = indcol3 > -1 ? colsArray[indcol3]["value"]?.ToString() : null,
-                            subt_amount = indcol4 > -1 ? colsArray[indcol4]["value"]?.ToString() : null,
-                            subt_open_bal = indtotal > -1 ? colsArray[indtotal]["value"]?.ToString() : null,
+                            Customer = indven > -1 ? colsArray[indven]["value"]?.ToString() : null,
+                            Current = indCurrent > -1 ? colsArray[indCurrent]["value"]?.ToString() : null,
+                            Col1 = indcol1 > -1 ? colsArray[indcol1]["value"]?.ToString() : null,
+                            Col2 = indcol2 > -1 ? colsArray[indcol2]["value"]?.ToString() : null,
+                            Col3 = indcol3 > -1 ? colsArray[indcol3]["value"]?.ToString() : null,
+                            Col4 = indcol4 > -1 ? colsArray[indcol4]["value"]?.ToString() : null,
+                            Total = indtotal > -1 ? colsArray[indtotal]["value"]?.ToString() : null,
                         });
                     }
 

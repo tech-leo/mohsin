@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MohsinQBO.Migrations.TenantDb
 {
     [DbContext(typeof(TenantDbContext))]
-    partial class TenantDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250314083715_Tenant_v1")]
+    partial class Tenant_v1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,10 +81,10 @@ namespace MohsinQBO.Migrations.TenantDb
                     b.Property<string>("Current")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Customer")
+                    b.Property<string>("Total")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Total")
+                    b.Property<string>("Vendor")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

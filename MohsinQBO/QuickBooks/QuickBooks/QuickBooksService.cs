@@ -16,7 +16,7 @@ using System.Threading.Tasks;
             //Getting rid of SSL requirement error
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-            List<OidcScopes> scopes = [OidcScopes.Accounting, OidcScopes.Payment];
+            List<OidcScopes> scopes = [OidcScopes.Accounting];
             ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, errors) => true;
 
             string? authorizationRequest = await Task.Run(() => oauthClient.GetAuthorizationURL(scopes));

@@ -187,12 +187,13 @@ public class ARAgingDetail
 {
     [Key]
     public int Id { get; set; }
-    public string? tx_date { get; set; } = string.Empty;
-    public string? txn_type { get; set; } = string.Empty;
-    public string? doc_num { get; set; } = string.Empty;
-    public string? cust_name { get; set; } = string.Empty;
-    public string? due_date { get; set; } = string.Empty;
-    public string? subt_amount { get; set; } = string.Empty;
-    public string? subt_open_bal { get; set; } = string.Empty;
+    public string? Customer { get; set; } = string.Empty;
+    public string? Current { get; set; } = string.Empty;
+    public string? Col1 { get; set; } = string.Empty;
+    public string? Col2 { get; set; } = string.Empty;
+    public string? Col3 { get; set; } = string.Empty;
+    public string? Col4 { get; set; } = string.Empty;
+    public string? Total { get; set; } = string.Empty;
+
 
 }

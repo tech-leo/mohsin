@@ -8,11 +8,16 @@ using Microsoft.Extensions.Logging;
 public class HourlyJobService : BackgroundService
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
-    
-    public HourlyJobService(IServiceScopeFactory _serviceScopeFactory)
+    private int minutes = 60;
+    public HourlyJobService(IServiceScopeFactory _serviceScopeFactory, IConfiguration configuration)
     {
         this._serviceScopeFactory = _serviceScopeFactory;
-        
+        var minutestr = configuration["Interval_Minutes"]?.ToString() ?? string.Empty;
+        if (int.TryParse(minutestr, out int minuteint))
+        {
+            minutes = minuteint;
+        }
+
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -22,8 +27,8 @@ public class HourlyJobService : BackgroundService
             
             // Your job logic here
             await RunJobAsync();
-
-            await Task.Delay(TimeSpan.FromHours(1), stoppingToken);
+            
+            await Task.Delay(TimeSpan.FromMinutes(minutes), stoppingToken);
         }
     }
 
